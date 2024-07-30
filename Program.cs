@@ -8,9 +8,9 @@ class Utils {
     }
     public static bool CheckFiles()
     {
-        if(!System.IO.File.Exists("./PlayerController.cs"))
+        if(!File.Exists("./PlayerController.cs"))
         {
-            Log("PlayerController not found");
+            Log("PlayerController file not found");
             Console.ReadLine();
             Environment.Exit(1);
         }
@@ -36,7 +36,7 @@ class Program {
             if(index > 0)
             {
                 Utils.Log("Found Base Index at line " + index);
-                
+
             } else {
                 Utils.Log("Failed to found Base index in PlayerController");
             }
