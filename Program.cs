@@ -24,7 +24,7 @@ class PlayerController {
         foreach(var dict in List)
         {
             string fieldname = Utils.DumpField("./PlayerController.cs",indexbase,dict.Key);
-            System.IO.File.AppendAllText("./PlayerController_Dump.txt", $"[{fieldname}] {dict.Value}\n");
+            System.IO.File.AppendAllText("./dump.txt", $"[{fieldname}] {dict.Value}\n");
         }
     }
 }
@@ -38,7 +38,7 @@ class PlayerInfo {
         foreach(var dict in List)
         {
             string fieldname = Utils.DumpField("./PlayerInfo.cs",indexbase,dict.Key);
-            System.IO.File.AppendAllText("./PlayerInfo_Dump.txt", $"[{fieldname}] {dict.Value}\n");
+            System.IO.File.AppendAllText("./dump.txt", $"[{fieldname}] {dict.Value}\n");
         }
     }
 }
@@ -148,7 +148,8 @@ class Utils {
             {"PlayerInfo_fulldump.txt"},
             {"PlayerController_fulldump"},
             {"PlayerInfo_Dump.txt"},
-            {"PlayerController_Dump.txt"}
+            {"PlayerController_Dump.txt"},
+            {"dump.txt"}
         };
         foreach(var file in files)
         {
