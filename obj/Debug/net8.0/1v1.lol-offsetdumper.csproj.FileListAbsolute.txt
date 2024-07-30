@@ -1,0 +1,15 @@
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\bin\Debug\net8.0\1v1.lol-offsetdumper.exe
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\bin\Debug\net8.0\1v1.lol-offsetdumper.deps.json
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\bin\Debug\net8.0\1v1.lol-offsetdumper.runtimeconfig.json
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\bin\Debug\net8.0\1v1.lol-offsetdumper.dll
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\bin\Debug\net8.0\1v1.lol-offsetdumper.pdb
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.GeneratedMSBuildEditorConfig.editorconfig
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.AssemblyInfoInputs.cache
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.AssemblyInfo.cs
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.csproj.CoreCompileInputs.cache
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.sourcelink.json
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.dll
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\refint\1v1.lol-offsetdumper.dll
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.pdb
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\1v1.lol-offsetdumper.genruntimeconfig.cache
+E:\1v1.lol-offsetdumper\1v1.lol-offsetdumper\obj\Debug\net8.0\ref\1v1.lol-offsetdumper.dll
