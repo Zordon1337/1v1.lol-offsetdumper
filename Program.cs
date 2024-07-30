@@ -1,4 +1,7 @@
-﻿class PlayerController {
+﻿using System.ComponentModel;
+using System.Diagnostics;
+
+class PlayerController {
     public static Dictionary<int, string> List = new Dictionary<int, string> {
         {0, "PlayerController->LocalPlayer"},
         {38, "PlayerController->PlayerHealth"},
@@ -21,7 +24,21 @@
         foreach(var dict in List)
         {
             string fieldname = Utils.DumpField("./PlayerController.cs",indexbase,dict.Key);
-            Utils.Log($"[{fieldname}] {dict.Value}");
+            System.IO.File.AppendAllText("./PlayerController_Dump.txt", $"[{fieldname}] {dict.Value}\n");
+        }
+    }
+}
+class PlayerInfo {
+    public static Dictionary<int, string> List = new Dictionary<int, string> {
+        {1, "PlayerInfo->PlayerXP"},
+        {5, "PlayerInfo->PlayerUsername"}
+    };
+    public static void DumpOffsets(int indexbase)
+    {
+        foreach(var dict in List)
+        {
+            string fieldname = Utils.DumpField("./PlayerInfo.cs",indexbase,dict.Key);
+            System.IO.File.AppendAllText("./PlayerInfo_Dump.txt", $"[{fieldname}] {dict.Value}\n");
         }
     }
 }
@@ -64,23 +81,18 @@ class Utils {
             string fixedvalue = lines[i].Replace("	",""); // very shit and funny code but i don't have any other idea
             
             //string exposetype = fixedvalue.Split(" ")[0];
-            string fieldtype = fixedvalue.Split(" ")[1];
-            string fieldname = fixedvalue.Split(" ")[2];
+            string fieldtype = fixedvalue.Split(" ")[1].Replace(";","");
+            string fieldname = fixedvalue.Split(" ")[2].Replace(";","");
             if(fieldtype == "delegate")
                 break;
             if(fieldtype == "readonly")
             {
-                fieldtype = fixedvalue.Split(" ")[2];
-                fieldname = fixedvalue.Split(" ")[3];
+                fieldtype = fixedvalue.Split(" ")[2].Replace(";","");
+                fieldname = fixedvalue.Split(" ")[3].Replace(";","");
             }
             if(!fieldtype.Contains("Dictionary"))
             {
-                if(lines[i].Contains("{ get; private set; }"))
-                {
-                    Log($"{fieldtype} -> {fieldname} (Index {index})");
-                } else {
-                    Log($"{fieldtype} -> {fieldname} (Index {index})");
-                }
+                System.IO.File.AppendAllText(file.Replace(".cs","_fulldump.txt"), $"{fieldtype} -> {fieldname} (Index {index})\n");
             }
             
             int linestoskip = 0;
@@ -108,10 +120,10 @@ class Utils {
             string fixedvalue = lines[i].Replace("	",""); // very shit and funny code but i don't have any other idea
             //Utils.Log(fixedvalue);
             //string exposetype = fixedvalue.Split(" ")[0];
-            string fieldtype = fixedvalue.Split(" ")[1];
-            string fieldname = fixedvalue.Split(" ")[2];
+            string fieldtype = fixedvalue.Split(" ")[1].Replace(";","");
+            string fieldname = fixedvalue.Split(" ")[2].Replace(";","");
             if(fieldname == "global::PlayerController") // bad idea but lol
-                fieldname = fixedvalue.Split(" ")[3];
+                fieldname = fixedvalue.Split(" ")[3].Replace(";","");
             if(index == pIndex)
                 return fieldname;
             if(fieldtype == "delegate")
@@ -130,22 +142,35 @@ class Utils {
         }
         return "Not found???";
     }
+    public static void RemoveExistingDumps()
+    {
+        List<string> files = new List<string>() {
+            {"PlayerInfo_fulldump.txt"},
+            {"PlayerController_fulldump"},
+            {"PlayerInfo_Dump.txt"},
+            {"PlayerController_Dump.txt"}
+        };
+        foreach(var file in files)
+        {
+            if(File.Exists(file))
+                File.Delete(file);
+        }
+    }
 }
 class Program {
     static void Main(string[] args)
     {
+        Stopwatch watch = new Stopwatch();
+        watch.Start();
         if(Utils.CheckFiles())
-        {   //int index = Utils.GetIndex("./PlayerController.cs", "public static global::PlayerController");
-            int index = Utils.GetIndex("./PlayerInfo.cs", "public List<string>");
-            if(index > 0)
-            {
-                Utils.Log("Found Base Index at line " + index);
-                Utils.DumpAllFields("./PlayerInfo.cs", index);
-                //Utils.DumpAllFields("./PlayerController.cs", index);
-                //PlayerController.DumpOffsets(index);
-            } else {
-                Utils.Log("Failed to found Base index in PlayerController");
-            }
+        {   
+            Utils.RemoveExistingDumps();
+            Utils.DumpAllFields("./PlayerInfo.cs", Utils.GetIndex("./PlayerInfo.cs", "public List<string>"));
+            Utils.DumpAllFields("./PlayerController.cs", Utils.GetIndex("./PlayerController.cs", "public static global::PlayerController"));
+            PlayerInfo.DumpOffsets(Utils.GetIndex("./PlayerInfo.cs", "public List<string>"));
+            PlayerController.DumpOffsets(Utils.GetIndex("./PlayerController.cs", "public static global::PlayerController"));
         }
+        watch.Stop();
+        Utils.Log($"Dumping completed in {watch.ElapsedMilliseconds}ms");
     }
 }
