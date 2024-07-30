@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 
 class PlayerController {
     public static Dictionary<int, string> List = new Dictionary<int, string> {
@@ -27,6 +28,28 @@ class PlayerController {
             System.IO.File.AppendAllText("./dump.txt", $"[{fieldname}] {dict.Value}\n");
         }
     }
+    public static string GenerateSDK(int indexbase)
+    {
+        string Result = "";
+        foreach(var dict in List)
+        {
+            string fieldname = Utils.DumpField("./PlayerController.cs",indexbase,dict.Key);
+            switch(dict.Key)
+            {
+                case 0:
+                    {
+                        Result += $"   PlayerController Local => PlayerController.{fieldname};\n";
+                        break;
+                    }
+                default:
+                    {
+                        Result += Utils.GenerateFunctionBody(dict.Value.Contains("Is") ? dict.Value.Replace("PlayerController->","") : $"Get{dict.Value.Replace("PlayerController->","")}",$"PC.{fieldname}",Utils.GetMethodType("./PlayerController.cs",indexbase,dict.Key))+$"\n";
+                        break;
+                    }
+            }
+        }
+        return Result;
+    }
 }
 class PlayerInfo {
     public static Dictionary<int, string> List = new Dictionary<int, string> {
@@ -40,6 +63,23 @@ class PlayerInfo {
             string fieldname = Utils.DumpField("./PlayerInfo.cs",indexbase,dict.Key);
             System.IO.File.AppendAllText("./dump.txt", $"[{fieldname}] {dict.Value}\n");
         }
+    }
+    public static string GenerateSDK(int indexbase, string BaseClassName)
+    {
+        string Result = "";
+        foreach(var dict in List)
+        {
+            string fieldname = Utils.DumpField("./PlayerInfo.cs",indexbase,dict.Key);
+            switch(dict.Key)
+            {
+                default:
+                    {
+                        Result += Utils.GenerateFunctionBody(dict.Value.Contains("Is") ? dict.Value.Replace("PlayerInfo->","") : $"Get{dict.Value.Replace("PlayerInfo->","")}",$"GetPlayerInfo(PC).{fieldname}",Utils.GetMethodType("./PlayerInfo.cs",indexbase,dict.Key))+$"\n";
+                        break;
+                    }
+            }
+        }
+        return Result;
     }
 }
 class Utils {
@@ -157,9 +197,85 @@ class Utils {
                 File.Delete(file);
         }
     }
+    public static string GenerateFunctionBody(string name, string func, string type)
+    {
+        return @$"
+    public static {type} {name}(PlayerController PC) => {func};";
+    }
+    public static string GetMethodType(string file, int baseindex, int pIndex)
+    {
+        string[] lines = System.IO.File.ReadAllLines(file);
+        int i = baseindex-1;
+        int index = 0;
+        while(i < lines.Length)
+        {
+            string fixedvalue = lines[i].Replace("	",""); // very shit and funny code but i don't have any other idea
+            //Utils.Log(fixedvalue);
+            //string exposetype = fixedvalue.Split(" ")[0];
+            string fieldtype = fixedvalue.Split(" ")[1].Replace(";","");
+            string fieldname = fixedvalue.Split(" ")[2].Replace(";","");
+            if(fieldname == "global::PlayerController") // bad idea but lol
+                fieldname = fixedvalue.Split(" ")[3].Replace(";","");
+            if(index == pIndex)
+                return fieldtype;
+            if(fieldtype == "delegate")
+                break;
+            int linestoskip = 0;
+            for(int i2 = i+1; i2 < 9999; i2++)
+            {
+                if(lines[i2].Contains("public"))
+                    {
+                        linestoskip = i2 - i;
+                        break;
+                    }
+            }
+            i+=linestoskip;
+            index++;
+        }
+        return "Not found???";
+    }
 }
 class Program {
     static void Main(string[] args)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine(@"
+        /$$$$$$$$ /$$$$$$$  /$$$$$$$    /$$    /$$$$$$   /$$$$$$  /$$$$$$$$
+        |_____ $$ | $$__  $$| $$__  $$ /$$$$   /$$__  $$ /$$__  $$|_____ $$/
+            /$$/ | $$  \ $$| $$  \ $$|_  $$  |__/  \ $$|__/  \ $$     /$$/ 
+            /$$/  | $$$$$$$/| $$  | $$  | $$     /$$$$$/   /$$$$$/    /$$/  
+        /$$/   | $$__  $$| $$  | $$  | $$    |___  $$  |___  $$   /$$/   
+        /$$/    | $$  \ $$| $$  | $$  | $$   /$$  \ $$ /$$  \ $$  /$$/    
+        /$$$$$$$$| $$  | $$| $$$$$$$/ /$$$$$$|  $$$$$$/|  $$$$$$/ /$$/     
+        |________/|__/  |__/|_______/ |______/ \______/  \______/ |__/");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("\n1) Dump offsets");
+        Console.WriteLine("2) Generate SDK (experimental)");
+        Console.Write("[?] Select Option: ");
+        switch(Console.ReadLine())
+        {
+            case "1":
+            {
+                Dump(args);
+                break;
+            }
+            case "2":
+            {
+                GenerateSDK(args);
+                break;
+            }
+        }
+    }
+    static void GenerateSDK(string[] args)
+    {
+        string SDK = "";
+        SDK += "internal class SDK {\n";
+        SDK += PlayerController.GenerateSDK(Utils.GetIndex("./PlayerController.cs", "public static global::PlayerController"));
+        SDK += PlayerInfo.GenerateSDK(Utils.GetIndex("./PlayerInfo.cs", "public List<string>"),Utils.DumpField("./PlayerController.cs",Utils.GetIndex("./PlayerController.cs", "public static global::PlayerController"),0)); // long asf but i am lazy to split it into other function
+        SDK += "}";
+        System.IO.File.WriteAllText($"./SDK.cs",SDK);
+    }
+    static void Dump(string[] args)
     {
         Stopwatch watch = new Stopwatch();
         watch.Start();

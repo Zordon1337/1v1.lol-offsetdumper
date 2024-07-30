@@ -1,2 +1,0 @@
-[GDMIIOPGIJI] PlayerInfo->PlayerXP
-[GCCNGNHHLMC] PlayerInfo->PlayerUsername
