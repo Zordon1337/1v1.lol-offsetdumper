@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("1v1.lol-offsetdumper")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01e5865aad33fb3489773323a042f7f8bb37ed9a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eacb04a97e3ac91bdbfb42f19d090c7db95e835e")]
 [assembly: System.Reflection.AssemblyProductAttribute("1v1.lol-offsetdumper")]
 [assembly: System.Reflection.AssemblyTitleAttribute("1v1.lol-offsetdumper")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
