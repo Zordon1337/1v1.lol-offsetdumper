@@ -1,4 +1,4 @@
-# 1v1.lol-offsetdumper
+# 1v1.lol-offsetdumper 
 "Offset" dumper for 1v1.lol which is actually just finding class names<br/>
 ## ps: it recomended to read source code before using, otherwise you may not understand how to read offset dump
 
