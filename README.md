@@ -1,6 +1,6 @@
-# 1v1.lol-offsetdumper 
-"Offset" dumper for 1v1.lol which is actually just finding class names<br/>
-## ps: it recomended to read source code before using, otherwise you may not understand how to read offset dump
+# 1v1.lol SDK Generator
+Utility which used(1v1.lol shut down so i will refer to it as "used") to map ingame fields to more familliar name, by generating SDK.cs file with useful classes & fields.
+## ps: it recomended to read source code before using, otherwise you may not understand how to read generated sdk
 
 Example dump:
 ```
@@ -24,7 +24,7 @@ Example dump:
 ```
 
 ## How to use
-1. Compile Dumper
+1. Compile SDK Gen
 2. Open Assembly-Csharp.dll in DnSpy
 3. Find Class "PlayerController"
 4. File->Save Code. And save it in Folder with Dumper as PlayerController.cs
@@ -32,4 +32,4 @@ Example dump:
 6. Open the variable type class(BABFPNELLFA in this case, just double click on variable type in DnSpy)
 7. Do the same thing as in step 4 but save file as PlayerInfo.cs
 
-Please keep in mind that small change in 1v1.lol code can break the dumper
+Please keep in mind that small change in 1v1.lol code can break the generator
