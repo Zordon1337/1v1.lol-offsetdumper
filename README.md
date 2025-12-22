@@ -1,5 +1,8 @@
+> [!NOTE]
+> Repo is being archived, due to game being shut down this year.
+
 # 1v1.lol SDK Generator
-Utility which used(1v1.lol shut down so i will refer to it as "used") to map ingame fields to more familliar name, by generating SDK.cs file with useful classes & fields.
+Utility which used(1v1.lol shut down so i will refer to it as "used") to map ingame fields to more familliar name, by generating SDK with useful classes & fields.
 ## ps: it recomended to read source code before using, otherwise you may not understand how to read generated sdk
 
 Example dump:
